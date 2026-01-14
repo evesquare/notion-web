@@ -9,18 +9,37 @@
 
 <body>
   <script>
+    // URLパスからアプリ名を抽出 (例: /redirects/sample/index.html -> sample)
+    const pathParts = window.location.pathname.split('/');
+    const appName = pathParts[pathParts.length - 2]; // index.htmlの一つ前
+
+    // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    const scheme = urlParams.get("scheme");
-    console.log(urlParams);
-    if (code == null || scheme == null) {
+
+    if (!appName || appName === 'redirects') {
+      // アプリ名が取得できない場合はfallbackへ
       window.location.replace(
         "https://evesquare.github.io/notion-web/redirects/fallback.html"
       );
     } else {
-      window.location.replace(
-        `${scheme}://oauth/callback?code=` + code
-      );
+      let deepLink;
+
+      // exp-で始まる場合は特別な処理
+      if (appName.startsWith('exp-')) {
+        // exp-192.168.11.3:19000 -> exp://192.168.11.3:19000
+        const expHost = appName.substring(4); // "exp-"を削除
+        deepLink = `exp://${expHost}/--/oauth/callback`;
+      } else {
+        // 通常のアプリ名 (notiondbrandompickerなど)
+        deepLink = `${appName}://oauth/callback`;
+      }
+
+      // URLパラメータがあれば追加
+      if (urlParams.toString()) {
+        deepLink += '?' + urlParams.toString();
+      }
+
+      window.location.replace(deepLink);
     }
   </script>
 </body>
