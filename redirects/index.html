@@ -11,14 +11,13 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    const scheme = urlParams.get("scheme");
-    if (code == null || scheme == null) {
+    if (code == null) {
       window.location.replace(
         "https://evesquare.github.io/notion-web/redirects/fallback.html"
       );
     } else {
       window.location.replace(
-        `${scheme}://oauth/callback?code=` + code
+        `notiondbrandompicker://oauth/callback?code=` + code
       );
     }
   </script>
