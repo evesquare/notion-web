@@ -11,6 +11,7 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
+    console.log(urlParams);
     if (code == null) {
       window.location.replace(
         "https://evesquare.github.io/notion-web/redirects/fallback.html"
