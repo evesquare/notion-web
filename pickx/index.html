@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirect</title>
+</head>
+
+<body>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    if (code == null) {
+      window.location.replace(
+        "https://evesquare.github.io/notion-web/redirects/fallback.html"
+      );
+    } else {
+      window.location.replace(
+        `pickx:///oauth/callback?code=` + code
+      );
+    }
+  </script>
+</body>
+
+</html>
